@@ -128,10 +128,17 @@ sub output_dataobj
 			'label' => { 'en' => [ $doc->get_value( 'formatdesc' ) ] },
 			'items' => [
 				{
-					'id'        => $doc->uri,
-					'type'      => 'Annotation',
-					'body'      => $body,
-					'thumbnail' => \@rels
+					'id'         => $doc->uri,
+					'type'       => 'AnnotationPage',
+					'items'      => [
+						{
+							'id'         => $doc->uri,
+							'type'       => 'Annotation',
+							'motivation' => 'painting',
+							'body'       => $body,
+							'thumbnail'  => \@rels
+						}
+					]
 				}
 			]
 		};
