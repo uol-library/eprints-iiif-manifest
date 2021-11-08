@@ -38,7 +38,6 @@ sub output_dataobj
 		'type'      => 'Manifest',
 		'label'     => { 'en' => [ $eprint->value( 'title' ) ] },
 		'summary'   => { 'en' => [ $eprint->value( 'abstract' ) ] },
-		'behaviour' => [ 'paged' ],
 		'items'     => [],
 		'metadata'  => [
 			{
@@ -75,7 +74,7 @@ sub output_dataobj
 		my $filetype;
 		my $fileobj  = $doc->stored_file( $doc->get_main );
 		my $filepath = '' . $fileobj->get_local_copy;
-		my $fileinfo = $exiftool->ExtractInfo( $filepath );
+		my $fileinfo = $exiftool->ExtractInfo( $filepath, { 'FastScan' => 5 } );
 		my $body = {
 			'id'     => $doc->get_url(),
 			'format' => $doc->get_value( 'mime_type' )
@@ -110,7 +109,7 @@ sub output_dataobj
 				{
 					my $relfileobj = $eprintdoc->stored_file( $eprintdoc->get_main );
 					my $relfilepath = '' . $relfileobj->get_local_copy;
-					my $relinfo = $exiftool->ExtractInfo( $relfilepath );
+					my $relinfo = $exiftool->ExtractInfo( $relfilepath, { 'FastScan' => 5 } );
 					my $relimginfo = $exiftool->GetInfo('ImageWidth', 'ImageHeight');
 					$thumb->{'width'} = $relimginfo->{'ImageWidth'};
 					$thumb->{'height'} = $relimginfo->{'ImageHeight'};
@@ -126,7 +125,7 @@ sub output_dataobj
 		push @canvases, {
 			'id'    => $doc->uri,
 			'type'  => 'Canvas',
-			'label' => $doc->get_value( 'formatdesc' ),
+			'label' => { 'en' => [ $doc->get_value( 'formatdesc' ) ] },
 			'items' => [
 				{
 					'id'        => $doc->uri,
