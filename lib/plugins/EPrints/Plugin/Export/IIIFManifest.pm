@@ -94,7 +94,6 @@ sub output_dataobj
 			$body->{'height'} = $imginfo->{'ImageHeight'};
 		}
 
-
 		my $related = $doc->search_related( $relation );
 		if ( $related->count > 0 )
 		{
@@ -128,13 +127,14 @@ sub output_dataobj
 			'label' => { 'en' => [ $doc->get_value( 'formatdesc' ) ] },
 			'items' => [
 				{
-					'id'         => $doc->uri,
+					'id'         => $doc->uri . '/page/' . ( $i + 1 ),
 					'type'       => 'AnnotationPage',
 					'items'      => [
 						{
-							'id'         => $doc->uri,
+							'id'         => $doc->uri . $doc->main,
 							'type'       => 'Annotation',
 							'motivation' => 'painting',
+							'target'     => $doc->uri . '/page/' . ( $i + 1 ),
 							'body'       => $body,
 							'thumbnail'  => \@rels
 						}
