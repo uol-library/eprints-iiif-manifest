@@ -131,7 +131,7 @@ sub output_dataobj
 					'type'       => 'AnnotationPage',
 					'items'      => [
 						{
-							'id'         => $doc->uri . $doc->main,
+							'id'         => $doc->uri . $doc->get_main,
 							'type'       => 'Annotation',
 							'motivation' => 'painting',
 							'target'     => $doc->uri . '/page/' . ( $i + 1 ),
