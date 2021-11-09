@@ -45,17 +45,18 @@ if ( $eprint )
 	my $id   = $eprint->value( 'eprintid' );
 	my $file = "$dir/$id.json";
 	my $manifest = '';
-	if ( -r $file )
-	{
-		if ( open(my $fhr, '<', $file) )
-		{
-			while( <$fhr> )
-			{
-				$manifest .= $_;
-			}
-			close($fhr);
-		}
-	}
+# disable caching in test environment
+#	if ( -r $file )
+#	{
+#		if ( open(my $fhr, '<', $file) )
+#		{
+#			while( <$fhr> )
+#			{
+#				$manifest .= $_;
+#			}
+#			close($fhr);
+#		}
+#	}
 	if ( $manifest eq '' )
 	{
 		$manifest = $eprint->export( "IIIFManifest" );
