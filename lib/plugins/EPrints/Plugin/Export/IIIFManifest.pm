@@ -122,10 +122,12 @@ sub output_dataobj
 			}, \@rels );
 		}
 		push @canvases, {
-			'id'    => $doc->uri,
-			'type'  => 'Canvas',
-			'label' => { 'en' => [ $doc->get_value( 'formatdesc' ) ] },
-			'items' => [
+			'id'     => $doc->uri . '/canvas/page/' . ( $i + 1 ),
+			'type'   => 'Canvas',
+			'width'  => $body->{'width'},
+			'height' => $body->{'height'}
+			'label'  => { 'en' => [ $doc->get_value( 'formatdesc' ) ] },
+			'items'  => [
 				{
 					'id'         => $doc->uri . '/page/' . ( $i + 1 ),
 					'type'       => 'AnnotationPage',
@@ -134,7 +136,7 @@ sub output_dataobj
 							'id'         => $doc->uri . $doc->get_main,
 							'type'       => 'Annotation',
 							'motivation' => 'painting',
-							'target'     => $doc->uri . '/page/' . ( $i + 1 ),
+							'target'     => $doc->uri . '/canvas/page/' . ( $i + 1 ),
 							'body'       => $body,
 							'thumbnail'  => \@rels
 						}
