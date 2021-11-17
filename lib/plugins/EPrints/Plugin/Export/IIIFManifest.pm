@@ -125,7 +125,7 @@ sub output_dataobj
 			'id'     => $doc->uri . '/canvas/page/' . ( $i + 1 ),
 			'type'   => 'Canvas',
 			'width'  => $body->{'width'},
-			'height' => $body->{'height'}
+			'height' => $body->{'height'},
 			'label'  => { 'en' => [ $doc->get_value( 'formatdesc' ) ] },
 			'items'  => [
 				{
