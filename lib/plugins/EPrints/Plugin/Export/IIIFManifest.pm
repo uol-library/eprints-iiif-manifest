@@ -80,18 +80,16 @@ sub output_dataobj
 			'format' => $doc->get_value( 'mime_type' )
 		};
 		if ( $doc->get_value( 'format' ) eq 'audio' ) {
-			$relation           = 'isaudio_mp3ThumbnailVersionOf';
 			$filetype           = 'Sound';
 			$body->{'type'}     = 'Sound';
 			my $mp3info         = $exiftool->GetInfo( 'Duration#' );
 			$body->{'duration'} = sprintf( '%d', $mp3info->{'Duration #'} );
 		} elsif ($doc->get_value( 'format' ) eq 'image' ) {
-			$relation         = 'islightboxThumbnailVersionOf';
 			$filetype         = 'Image';
 			$body->{'type'}   = 'Image';
 			my $imginfo       = $exiftool->GetInfo('ImageWidth', 'ImageHeight');
-			$body->{'width'}  = $imginfo->{'ImageWidth'};
-			$body->{'height'} = $imginfo->{'ImageHeight'};
+			$body->{'width'}  = $imginfo->{'ImageWidth'} || 0;
+			$body->{'height'} = $imginfo->{'ImageHeight'} || 0;
 		}
 
 		my $related = $doc->search_related( $relation );
@@ -99,8 +97,9 @@ sub output_dataobj
 		{
 			$related->map( sub {
 				my( $session, $dataset, $eprintdoc, $rels ) = @_;
-				my $thumb = {
-					'id'     => $eprintdoc->get_url(),
+				my $relpos  = $doc->value( 'pos' );
+				(my $relname = $doc->value( 'main' )) =~ s/\.[^.]+$//;
+				my $rel = {
 					'type'   => $filetype,
 					'format' => $eprintdoc->value( 'mime_type' ),
 				};
@@ -110,33 +109,35 @@ sub output_dataobj
 					my $relfilepath = '' . $relfileobj->get_local_copy;
 					my $relinfo = $exiftool->ExtractInfo( $relfilepath, { 'FastScan' => 5 } );
 					my $relimginfo = $exiftool->GetInfo('ImageWidth', 'ImageHeight');
-					$thumb->{'width'} = $relimginfo->{'ImageWidth'};
-					$thumb->{'height'} = $relimginfo->{'ImageHeight'};
+					$rel->{'id'}   = $repo->{config}->{base_url} . '/' . $eprint->value( 'eprintid' ) . '/' . $relpos . '.has' . $relname . 'ThumbnailVersion/' . $doc->get_value( 'main' );
+					$rel->{'width'} = $relimginfo->{'ImageWidth'} || 0;
+					$rel->{'height'} = $relimginfo->{'ImageHeight'} || 0;
 				}
 				if ( $filetype eq 'Sound' )
 				{
-					$thumb->{'duration'} = $body->{'duration'};
+					$rel->{'id'}   = $repo->{config}->{base_url} . '/' . $eprint->value( 'eprintid' ) . '/' . $relpos . '.hasaudio_mp3ThumbnailVersion/' . $doc->get_value( 'main' );
+					$rel->{'duration'} = $body->{'duration'};
 				}
-				push @$rels, $thumb;
+				push @$rels, $rel;
 
 			}, \@rels );
 		}
 		push @canvases, {
-			'id'     => $doc->uri . '/canvas/page/' . ( $i + 1 ),
+			'id'     => $doc->uri . '/' . ( $i + 1 ) . '/canvas',
 			'type'   => 'Canvas',
 			'width'  => $body->{'width'},
 			'height' => $body->{'height'},
 			'label'  => { 'en' => [ $doc->get_value( 'formatdesc' ) ] },
 			'items'  => [
 				{
-					'id'         => $doc->uri . '/page/' . ( $i + 1 ),
+					'id'         => $doc->uri . '/' . ( $i + 1 ) . '/page',
 					'type'       => 'AnnotationPage',
 					'items'      => [
 						{
-							'id'         => $doc->uri . $doc->get_main,
+							'id'         => $doc->uri . '/' . ( $i + 1 ) . '/annotation',
 							'type'       => 'Annotation',
 							'motivation' => 'painting',
-							'target'     => $doc->uri . '/canvas/page/' . ( $i + 1 ),
+							'target'     => $doc->uri . '/' . ( $i + 1 ) . '/canvas',
 							'body'       => $body,
 							'thumbnail'  => \@rels
 						}
