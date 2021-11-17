@@ -6,30 +6,30 @@
     <document>
       <files>
         <file>
+          <filename>epm/eprints-iiif-manifest/cfg/cfg.d/iiif-manifest.pl</filename>
+          <mime_type>text/plain</mime_type>
+          <hash>8bb1cef224b74f0ace7e01486be351f7</hash>
+          <hash_type>MD5</hash_type>
+          <filesize>379</filesize>
+        </file>
+        <file>
           <filename>epm/eprints-iiif-manifest/cgi/iiif</filename>
           <mime_type>text/plain</mime_type>
-          <hash>1f01d05be32d925729214a936d11345b</hash>
+          <hash>37374248831984c979b449fa3c2f2b0d</hash>
           <hash_type>MD5</hash_type>
-          <filesize>444</filesize>
+          <filesize>1357</filesize>
         </file>
         <file>
           <filename>plugins/EPrints/Plugin/Export/IIIFManifest.pm</filename>
           <mime_type>inode/symlink</mime_type>
-          <hash>dfaab9199c362df627ccf7a6d907245e</hash>
+          <hash>1af4b671431d84887aa0fb19425a8c25</hash>
           <hash_type>MD5</hash_type>
-          <filesize>2500</filesize>
-        </file>
-        <file>
-          <filename>epm/eprints-iiif-manifest/cfg/cfg.d/iiif-manifest.pl</filename>
-          <mime_type>text/plain</mime_type>
-          <hash>bb271253a9c6fa12b34cd376c1140763</hash>
-          <hash_type>MD5</hash_type>
-          <filesize>59</filesize>
+          <filesize>4648</filesize>
         </file>
       </files>
-      <mime_type>text/plain</mime_type>
-      <format>text</format>
-      <main>epm/eprints-iiif-manifest/cfg/cfg.d/iiif-manifest.pl</main>
+      <mime_type>inode/symlink</mime_type>
+      <format>other</format>
+      <main>plugins/EPrints/Plugin/Export/IIIFManifest.pm</main>
       <content>install</content>
     </document>
   </documents>
@@ -43,7 +43,7 @@
       <id>p.l.edwards@leeds.ac.uk</id>
     </item>
   </creators>
-  <datestamp>2021-10-06 13:36:38</datestamp>
+  <datestamp>2021-11-17 16:08:59</datestamp>
   <title>Eprints IIIF Manifest export plugin</title>
   <description>This plugin is intended to produce IIIF manifests from eprint records.</description>
   <requirements></requirements>
