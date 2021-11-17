@@ -98,7 +98,7 @@ sub output_dataobj
 			$related->map( sub {
 				my( $session, $dataset, $eprintdoc, $rels ) = @_;
 				my $relpos  = $doc->value( 'pos' );
-				(my $relname = $doc->value( 'main' )) =~ s/\.[^.]+$//;
+				(my $relname = $eprintdoc->value( 'main' )) =~ s/\.[^.]+$//;
 				my $rel = {
 					'type'   => $filetype,
 					'format' => $eprintdoc->value( 'mime_type' ),
