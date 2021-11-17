@@ -29,8 +29,7 @@ sub output_dataobj
 
 	my $repo     = $plugin->repository;
 	my $exiftool = new Image::ExifTool;
-	my $id       = $eprint->uri;
-	$id          =~ s|id/eprint/|cgi/iiif?eprintid=|;
+	my $id       = $repo->{config}->{perl_url} . '/iiif?eprintid=' . $eprint->value( 'eprintid' );
 
 	my $data = {
 		'@context'  => 'http://iiif.io/api/presentation/3/context.json',
