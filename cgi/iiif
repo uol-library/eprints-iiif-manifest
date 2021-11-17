@@ -3,7 +3,7 @@ use EPrints::EPrint;
 
 use strict;
 my $session = new EPrints::Session;
-Apache::exit( 0 ) unless( defined $session );
+exit( 0 ) unless( defined $session );
 
 my $eprintid = $session->param( 'eprintid' );
 my $emuid = $session->param( 'emuid' );
@@ -32,31 +32,31 @@ elsif ( $emuid )
 	}
 	else
 	{
-		Apache::exit( 0 );
+		exit( 0 );
 	}
 }
 else
 {
-	Apache::exit( 0 );
+	exit( 0 );
 }
 if ( $eprint )
 {
-	my $dir  = "/usr/share/eprints/var/iiif";
+	my $dir  = $session->get_repository->config( "variables_path" ) . '/iiif-manifests';
+	unless( -d $dir) { make_path($dir, { chmod=> 0755 } ); };
 	my $id   = $eprint->value( 'eprintid' );
 	my $file = "$dir/$id.json";
 	my $manifest = '';
-# disable caching in test environment
-#	if ( -r $file )
-#	{
-#		if ( open(my $fhr, '<', $file) )
-#		{
-#			while( <$fhr> )
-#			{
-#				$manifest .= $_;
-#			}
-#			close($fhr);
-#		}
-#	}
+	if ( -r $file )
+	{
+		if ( open(my $fhr, '<', $file) )
+		{
+			while( <$fhr> )
+			{
+				$manifest .= $_;
+			}
+			close($fhr);
+		}
+	}
 	if ( $manifest eq '' )
 	{
 		$manifest = $eprint->export( "IIIFManifest" );
@@ -70,7 +70,7 @@ if ( $eprint )
 	print $manifest;
 }
 else{
-	Apache::exit( 0 );
+	exit( 0 );
 }
 $session->terminate;
 
